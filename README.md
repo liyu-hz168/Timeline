@@ -1,21 +1,17 @@
 # Timeline
 
-Sprint Goals
-By the end of this sprint, your team must:
+Project Name: Timeline
 
-Create a public GitHub repository and add all team members.
+Team Name: "Did we ever come up with one?"
 
-Set up an initial README.md file with team member information and an overview of the application.
+Team Members (names and GitHub usernames): 
+  Gerindra Adi - TedDPig123
+  Leon Ge - leon332157
+  Liyu Zeng - liyu-hz168
+  Selena Lo - tsaihsilo
 
-Define a Milestone in GitHub to track progress toward Milestone 1.
+Brief Overview of the Application: 
 
-Break down Milestone 1 into tasks and subtasks using GitHub Issues.
 
-Submit a PDF capturing what was done, including:
-
-A screenshot of your GitHub Milestone and Issues
-
-A link to your GitHub repository
-
-Any notes on task delegation or planning
+Placeholder for future setup instructions:
 
