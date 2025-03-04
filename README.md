@@ -3,7 +3,7 @@
 ## Project Name: Timeline
 
 ### **Team Name**: "Did we ever come up with one?"
----
+***
 ### **Team Members (names and GitHub usernames)**:
 
   **Gerindra Adi** - TedDPig123
