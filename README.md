@@ -1,18 +1,18 @@
 # Timeline
 
-Project Name: Timeline
+## Project Name: Timeline
 
-Team Name: "Did we ever come up with one?"
+### **Team Name**: "Did we ever come up with one?"
+---
+### **Team Members (names and GitHub usernames)**:
 
-Team Members (names and GitHub usernames):
-
-  Gerindra Adi - TedDPig123
+  **Gerindra Adi** - TedDPig123
   
-  Leon Ge - leon332157
+  **Leon Ge** - leon332157
   
-  Liyu Zeng - liyu-hz168
+  **Liyu Zeng** - liyu-hz168
   
-  Selena Lo - tsaihsilo
+  **Selena Lo** - tsaihsilo
 
 Brief Overview of the Application: 
 
