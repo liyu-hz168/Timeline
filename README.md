@@ -1,22 +1,27 @@
-# Timeline
+## Project Name
 
-## Project Name: Timeline
+**[Timeline]**
 
-### **Team Name**: Team 26
-***
-### **Team Members (names and GitHub usernames)**:
+## Team Name
 
-  **Gerindra Adi** - TedDPig123
-  
-  **Leon Ge** - leon332157
-  
-  **Liyu Zeng** - liyu-hz168
-  
-  **Selena Lo** - tsaihsilo
-***
+**[Team 26]**
+
+## Team Members
+
+**Gerindra Adi** - TedDPig123
+
+**Leon Ge** - leon332157
+
+**Liyu Zeng** - liyu-hz168
+
+**Selena Lo** - tsaihsilo
+
+## Overview
+
 Life moves quickly, and often, we find it difficult to recall our cherished memories when we need them the most.
 
 This application serves as a secure, personalized space for people to store, relive, and reflect on their past memories. It's a service that allows users to record personalized snippets of their daily lives to look back on, to cherish both timely pictures of their life and their thoughts at specific moments of their personal history. Often times we lose perspective of what's happened over the course of our lives, but with Timeline users can construct a cohesive picture of their entire life through memories - crafting their own personal narratives.
 
-(Placeholder for future setup instructions)
+## Setup Instructions
 
+[Placeholder]
