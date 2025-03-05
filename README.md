@@ -2,7 +2,7 @@
 
 ## Project Name: Timeline
 
-### **Team Name**: "Did we ever come up with one?"
+### **Team Name**: Team 26
 ***
 ### **Team Members (names and GitHub usernames)**:
 
