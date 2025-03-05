@@ -1,6 +1,6 @@
 ## Project Name
 
-**Timeline**<br><br>
+**Timeline**<br>
 
 
 ## Team Name
