@@ -1,10 +1,10 @@
 ## Project Name
 
-**[Timeline]**
+**Timeline**
 
 ## Team Name
 
-**[Team 26]**
+**Team 26**
 
 ## Team Members
 
