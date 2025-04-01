@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import Thumbnail from './thumbnail';
 
 export default function Timeline() {
+    const dummyText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
     const scrollContainer1 = useRef<HTMLDivElement | null>(null);
     const scrollContainer2 = useRef<HTMLDivElement | null>(null);
     
@@ -125,7 +128,7 @@ export default function Timeline() {
     useEffect(() => {
       const handleWheel = (event: WheelEvent) => {
         event.preventDefault();
-        const scrollSpeed = 8;
+        const scrollSpeed = 5; //SCROLL SPEED ADJUST HERE
         const delta = event.deltaY * scrollSpeed;
   
         gsap.to([scrollContainer1.current, scrollContainer2.current], {
@@ -194,13 +197,11 @@ export default function Timeline() {
             style={{marginLeft: `${0.3*vwidth}px`, marginRight: `${0.3*vwidth}px`}}>
               {Array.from({ length: 25 }).map((e, index) => (
                 <div className="relative flex justify-center align-end" key={index}>
-                  <div className="absolute z-0 w-[0.4rem] h-[500px] bg-black"></div>
-                  <span
-                    key={index}
-                    className="z-10 thumbnail flex flex-row justify-center items-center rounded-[28px] bg-white border-[3px] border-black"
-                  >
-                    {index}
-                  </span>
+                    <div className="absolute z-0 w-[0.4rem] h-[500px] bg-black"></div>
+                    <Thumbnail
+                        text={dummyText}
+                        image='/sample1.jpg'
+                    />
                 </div>
               ))}
             </div>
