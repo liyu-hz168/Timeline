@@ -219,12 +219,10 @@ export default function Timeline() {
               {Array.from({ length: 24 }).map((e, index) => (
                 <div className="relative flex justify-center" key={index}>
                 <div className="absolute z-0 w-[0.4rem] h-[200px] bg-black top-1/2 -translate-y-1/2 mt-[-200px]"></div>
-                  <span
-                    key={index}
-                    className="z-10 thumbnail flex flex-row justify-center items-center rounded-[28px] bg-white border-[3px] border-black"
-                  >
-                    {index}
-                  </span>
+                    <Thumbnail
+                            text={dummyText}
+                            image='/sample1.jpg'
+                        />
                 </div>
               ))}
             </div>
