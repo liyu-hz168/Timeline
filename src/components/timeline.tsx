@@ -182,7 +182,7 @@ export default function Timeline() {
     }, [vwidth]);
   
     return (
-      <div className="flex flex-col w-[100vw] align-center justify-center">
+      <div className="flex flex-col w-[100vw] align-center justify-center z-50">
         {/* top scroll */}
         {/* dynamically calculated margins so always aligned with timeline */}
         <div className="gallery-wrap flex align-center items-center justify-center" style={{marginLeft: `${0.048*vwidth + 70}px`, marginRight: `${0.048*vwidth + 70}px`}}>
@@ -193,7 +193,7 @@ export default function Timeline() {
             <div className="items-end p-[10px] gap-[40px] grid grid-flow-col grid-cols-[auto auto auto auto auto auto auto]"
             style={{marginLeft: `${0.3*vwidth}px`, marginRight: `${0.3*vwidth}px`}}>
               {Array.from({ length: 25 }).map((e, index) => (
-                <div className="relative flex justify-center align-end">
+                <div className="relative flex justify-center align-end" key={index}>
                   <div className="absolute z-0 w-[0.4rem] h-[500px] bg-black"></div>
                   <span
                     key={index}
@@ -216,7 +216,7 @@ export default function Timeline() {
             <div className="p-[10px] gap-[40px] grid grid-flow-col grid-cols-[auto auto auto auto auto] ml-[70px] mr-[70px] h-[100%]"
             style={{marginLeft: `${0.3*vwidth + 70}px`, marginRight: `${0.3*vwidth +70}px`}}>
               {Array.from({ length: 24 }).map((e, index) => (
-                <div className="relative flex justify-center">
+                <div className="relative flex justify-center" key={index}>
                 <div className="absolute z-0 w-[0.4rem] h-[200px] bg-black top-1/2 -translate-y-1/2 mt-[-200px]"></div>
                   <span
                     key={index}
