@@ -1,15 +1,15 @@
 import { useState } from "react";
-
-import Button from "./components/Button";
-import Icon from "./components/Icon";
-import Pin from "./components/Pin";
-import Typewriter from "./components/Typewriter";
-
-import viteLogo from "/vite.svg";
+import Timeline from "./components/timeline";
+import TimelineBar from "./components/timeline-bar";
 
 function App() {
   return (
-    
+    <div className="relative flex items-center w-[100vw] h-[100vh]">
+      <div className="absolute w-[100%]">
+        <Timeline/>  
+      </div>    
+      <TimelineBar />
+    </div>
   );
 }
 

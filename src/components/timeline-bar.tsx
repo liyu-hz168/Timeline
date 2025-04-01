@@ -1,7 +1,7 @@
 import LeftArrow from '../assets/graphics/arrow-left.png'
 import RightArrow from '../assets/graphics/arrow-right.png'
 
-export default function Timeline(){
+export default function TimelineBar(){
     return(
         <div className="relative flex flex-row justify-center items-center">
             <img id="left-arrow" src={LeftArrow} alt="move-left" className='w-[50px] mr-[20px] ml-[4.8vw] cursor-pointer'/>
