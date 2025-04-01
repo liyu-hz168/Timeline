@@ -194,10 +194,10 @@ export default function Timeline() {
             style={{marginLeft: `${0.3*vwidth}px`, marginRight: `${0.3*vwidth}px`}}>
               {Array.from({ length: 25 }).map((e, index) => (
                 <div className="relative flex justify-center align-end">
-                  <div className="absolute z-1 w-[0.4rem] h-[500px] bg-black"></div>
+                  <div className="absolute z-0 w-[0.4rem] h-[500px] bg-black"></div>
                   <span
                     key={index}
-                    className="z-2 thumbnail flex flex-row justify-center items-center rounded-[28px] bg-white border-[3px] border-black"
+                    className="z-10 thumbnail flex flex-row justify-center items-center rounded-[28px] bg-white border-[3px] border-black"
                   >
                     {index}
                   </span>
@@ -217,10 +217,10 @@ export default function Timeline() {
             style={{marginLeft: `${0.3*vwidth + 70}px`, marginRight: `${0.3*vwidth +70}px`}}>
               {Array.from({ length: 24 }).map((e, index) => (
                 <div className="relative flex justify-center">
-                  <div className="absolute z-1 w-[0.4rem] h-[200px] bg-black top-1/2 -translate-y-1/2 mt-[-200px]"></div>
+                <div className="absolute z-0 w-[0.4rem] h-[200px] bg-black top-1/2 -translate-y-1/2 mt-[-200px]"></div>
                   <span
                     key={index}
-                    className="z-2 thumbnail flex flex-row justify-center items-center rounded-[28px] bg-white border-[3px] border-black"
+                    className="z-10 thumbnail flex flex-row justify-center items-center rounded-[28px] bg-white border-[3px] border-black"
                   >
                     {index}
                   </span>
