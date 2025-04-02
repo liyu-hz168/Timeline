@@ -15,6 +15,8 @@
     "framer-motion": "^11.13.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.4.1",
+    "react-zoom-pan-pinch": "^3.7.0",
     "tailwind-merge": "^2.5.5"
   },
   "devDependencies": {
