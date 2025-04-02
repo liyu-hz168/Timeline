@@ -1,79 +1,60 @@
 import { useState } from "react";
+import PreviewCard from "./components/PreviewCard";
 
-import Button from "./components/Button";
-import Icon from "./components/Icon";
-import Pin from "./components/Pin";
-import Typewriter from "./components/Typewriter";
+type MemoryModalType = "text" | "image";
 
-import viteLogo from "/vite.svg";
+type MemoryModal = {
+  id: number;
+  type: MemoryModalType;
+  content: string;
+}
+
+type Memory = {
+  id: number;
+  created: string;
+  memoryModals: MemoryModal[]
+}
 
 function App() {
-  const [count, setCount] = useState(0);
+  const mockMemories: Memory[] = [
+    { 
+      id: 1,
+      created: "2020-01-01",
+      memoryModals: [
+        {
+          id: 101,
+          type: "image",
+          content:
+            "https://res.cloudinary.com/icelandtours/g_auto,f_auto,c_fill,w_2048,q_auto:good/northern_lights_above_glacier_lagoon_v2osk_unsplash_7d39ca647f.jpg"
+        },
+        {
+          id: 102,
+          type: "text",
+          content:
+            "This phenomenon is created by giant flares from the sun or solar storms. These happen about 150 million kilometers away from Earth. The flares then send blasts of charged particles towards our planet."
+        }
+      ]
+    }
+  ]
 
-  const words = [
-    { text: "Vite", className: "text-[#a95eff]" },
-    { text: " + " },
-    { text: "React", className: "text-[#61dafb]" },
-    { text: " + " },
-    { text: "Tailwindcss", className: "text-[#0ea5e9]" },
-    { text: " + " },
-    { text: "Framer Motion", className: "text-[#ff57c8]" },
-  ];
+  const [showPreview, setShowPreview] = useState(true);
+
+  const mockData = mockMemories[0];
+
+  
 
   return (
-    <div className="text-center">
-      <header className="flex min-h-screen flex-col items-center justify-center gap-2 bg-[#282c34] pb-8 text-white">
-        <Pin text="React 👍">
-          <Icon />
-        </Pin>
-
-        <Typewriter words={words} />
-        <p className="my-10">
-          <Button onTap={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </Button>
-        </p>
-        <p>
-          Edit <code className="text-[#8d96a7]">App.tsx</code> and save to test
-          HMR updates.
-        </p>
-        <p className="mt-3 flex gap-3 text-center text-[#8d96a7]">
-          <a
-            className="text-[#61dafb] transition-all hover:text-blue-500"
-            href="https://react.dev/learn"
-            target="_blank"
-          >
-            Learn React
-          </a>
-          {" | "}
-          <a
-            className="text-[#61dafb] transition-all hover:text-blue-500"
-            href="https://vitejs.dev/guide/"
-            target="_blank"
-          >
-            Vite Docs
-          </a>
-          {" | "}
-          <a
-            className="text-[#61dafb] transition-all hover:text-blue-500"
-            href="https://tailwindcss.com/docs/installation"
-            target="_blank"
-          >
-            Tailwindcss Docs
-          </a>
-          {" | "}
-          <a
-            className="text-[#61dafb] transition-all hover:text-blue-500"
-            href="https://www.framer.com/motion/"
-            target="_blank"
-          >
-            Framer Docs
-          </a>
-        </p>
-        <img src={viteLogo} className="mx-auto my-4" />
-      </header>
+    <div>
+      {showPreview && (
+        <PreviewCard
+          created={mockData.created}
+          memoryModals={mockData.memoryModals}
+          onClose={() => setShowPreview(false)}
+          onExpand={() => alert("Expand view!")}
+        />
+      )}
     </div>
-  );
+  )
 }
 
 export default App;
