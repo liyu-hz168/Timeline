@@ -5,7 +5,8 @@ import { useState } from "react";
 import { MemModalContext, EditingContext } from "@/components/context";
 import { MemoryCard } from "./components/MemoryCard";
 import { mockMemoryCards } from "./data/mockMemoryCards";
-
+import Timeline from "./components/timeline";
+import TimelineBar from "./components/timeline-bar";
 function App() {
   const [memModals, setMemModals] = useState<MemoryCard[]>([...mockMemoryCards]);
   const [isEditMode, changeMode] = useState<boolean>(false);
@@ -34,9 +35,16 @@ function App() {
             {/* use useParam to extract date from URL */}
           </Routes>
         </Router>
+        <div className="relative flex h-[100vh] w-[100vw] items-center">
+      <div className="absolute w-[100%]">
+        <Timeline />
+      </div>
+      <TimelineBar />
+    </div>
       </EditingContext.Provider>
     </MemModalContext.Provider>
   );
 }
+
 
 export default App;

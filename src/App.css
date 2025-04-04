@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "PP-Editorial-New";
+  src: url("./assets/fonts/PPEditorialNew-Regular.ttf");
+}
+
+@theme {
+  --font-editorial: "PP-Editorial-New", "serif";
+}
