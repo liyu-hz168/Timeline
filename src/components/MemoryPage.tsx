@@ -1,24 +1,26 @@
 import { useRef, useEffect, useState } from "react";
-import { MemModal, MemModalType } from "./MemModal";
+import { MemModal, MemoryCard } from "./MemoryCard";
 import { useMemModalContext, useEditingContext } from "./context";
 import { useNavigate } from "react-router-dom";
 
 // Each memory page should also be unique
 // Unique key can be the date
 // set up useState in a different file const [date, selectedNewDate] = useState(some selected date)
-const MemoryPage = ({date,}: {date: string;}) => {
+const MemoryPage = ({ date }: { date: string }) => {
   //Helper: loads memory modals associated to this date
-  const loadMemForDate = (memModals: MemModalType[], date: string) => {
+
+  const loadMemForDate = (memModals: MemoryCard[], date: string) => {
+    console.log("Loading mem for date: ", date);
+    console.log(memModals)
     return memModals.filter((modal) => modal.date === date);
   };
 
   const memPageRef = useRef<HTMLDivElement>(null);
   const { memModals, updateMemModalPosition } = useMemModalContext();
   const { isEditMode, changeMode } = useEditingContext();
-  const [curModals, setCurModals] = useState<MemModalType[]>(() =>
+  const [curModals, setCurModals] = useState<MemoryCard[]>(() =>
     loadMemForDate(memModals, date),
   );
-
   useEffect(() => {
     setCurModals(loadMemForDate(memModals, date));
   }, [memModals]);
@@ -43,7 +45,7 @@ const MemoryPage = ({date,}: {date: string;}) => {
           </button>
         )}
         {/* FIXME: change key in the future, to match unique id in database once backend implemented ? */}
-        {curModals.map((memModal: MemModalType) => (
+        {curModals.map((memModal: MemoryCard) => (
           <MemModal
             key={memModal.id}
             memModal={memModal}

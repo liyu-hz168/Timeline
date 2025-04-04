@@ -3,12 +3,13 @@ import { TimelinePage } from "./routing-pages/TimelinePage";
 import { EditMemoryPage } from "./routing-pages/EditMemoryPage";
 import { useState } from "react";
 import { MemModalContext, EditingContext } from "@/components/context";
-import { MemModalType } from "./components/MemModal";
+import { MemoryCard } from "./components/MemoryCard";
+import { mockMemoryCards } from "./data/mockMemoryCards";
 
 function App() {
-  const [memModals, setMemModals] = useState<MemModalType[]>([]);
-  const [ isEditMode, changeMode ] = useState<boolean>(false);
-  // FIXME 
+  const [memModals, setMemModals] = useState<MemoryCard[]>([...mockMemoryCards]);
+  const [isEditMode, changeMode] = useState<boolean>(false);
+  // FIXME
   // Function to update position of a modal
   const updateMemModalPosition = (
     id: string,
@@ -16,17 +17,16 @@ function App() {
   ) => {
     setMemModals((prevModals) => {
       const updatedModals = prevModals.map((modal) =>
-        modal.id === id ? { ...modal, position: newPosition } : modal
+        modal.id === id ? { ...modal, position: newPosition } : modal,
       );
       return updatedModals;
     });
   };
-
   return (
     <MemModalContext.Provider
       value={{ memModals, setMemModals, updateMemModalPosition }}
     >
-      <EditingContext.Provider value ={{ isEditMode, changeMode }}>
+      <EditingContext.Provider value={{ isEditMode, changeMode }}>
         <Router>
           <Routes>
             <Route path="/" element={<TimelinePage />} />
