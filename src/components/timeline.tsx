@@ -7,6 +7,8 @@ import {
   filterMemoryByYear,
   thumbnailInfo,
 } from "@/utils/FilterMemoryByDateRange";
+import { MemoryPage } from "./MemoryPage";
+import { useNavigate } from "react-router-dom";
 
 export default function Timeline() {
   const scrollContainer1 = useRef<HTMLDivElement | null>(null);
@@ -229,6 +231,7 @@ export default function Timeline() {
     adjustThumbnailSize();
   }, [vwidth]);
 
+  const navigate = useNavigate();
   return (
     <div className="align-center z-50 flex w-[100vw] flex-col justify-center">
       {/* top scroll */}
@@ -257,11 +260,17 @@ export default function Timeline() {
                 key={e.date}
               >
                 <div className="absolute z-0 h-[500px] w-[0.4rem] bg-black"></div>
-                <Thumbnail
-                  text={e ? e.text : null}
-                  image={e ? e.image : null}
-                  date={e ? e.date : null}
-                />
+                <button
+                  onClick={() => {
+                  navigate(`/edit/${e.date!}`);
+                  }}
+                >
+                  <Thumbnail
+                    text={e ? e.text : null}
+                    image={e ? e.image : null}
+                    date={e ? e.date : null}
+                  />
+                </button>
               </div>
             ))}
           </div>

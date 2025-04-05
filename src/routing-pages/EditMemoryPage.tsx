@@ -42,11 +42,12 @@ const EditMemoryPage = () => {
   }
   const dateTitle = formatDate(date!);
   //Default memory modal when created
-  function newMemModal(): MemoryCard {
+  function newMemModal():MemoryCard{
     return {
       id: new Date().toISOString(), // long date string, should be unique unless new modals created less than milisec apart
       date: date!, //YYYY-MM-DD
       position: { x: 0, y: 0 },
+      memoryID: ""
     };
   }
 
@@ -57,11 +58,11 @@ const EditMemoryPage = () => {
       <div className="col-span-1 flex flex-col items-center bg-gray-300 p-4 shadow-lg">
         Editing Page, more functions to be implemented ...
         <button
-          className="mb-7 mr-4 scale-y-[1.2] rounded-full bg-gray-700 px-3 py-1 font-serif text-xl text-white hover:bg-gray-500"
+          className="mr-4 scale-y-[1.2] rounded-full bg-gray-700 px-3 py-1 font-serif text-xl text-white hover:bg-gray-500 mb-7"
           onClick={() => {
             const newModal = newMemModal();
             setMemModals([...memModals, newModal]);
-          }}
+        }}
         >
           Add Memory Modal
         </button>
@@ -69,9 +70,10 @@ const EditMemoryPage = () => {
         <button
           className="mr-4 scale-y-[1.2] rounded-full bg-gray-700 px-3 py-1 font-serif text-xl text-white hover:bg-gray-500"
           onClick={() => {
-            navigate(`/`);
+            navigate(`/`); 
             changeMode(false);
-          }}
+            }
+          }
         >
           Return to Timeline
         </button>
