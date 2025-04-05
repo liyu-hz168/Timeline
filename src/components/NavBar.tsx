@@ -16,11 +16,17 @@ const NavBar = () => {
       </div>
       {/* View Navigation */}
       <div className="font-editorial flex items-center gap-4 justify-self-center text-4xl">
-        <button className="scale-y-[1.1] hover:underline">week</button>
+        <button className="scale-y-[1.1] hover:underline" id="week-button">
+          week
+        </button>
         <div className="h-8 w-[2px] scale-y-[1.6] bg-black"></div>
-        <button className="scale-y-[1.1] hover:underline">month</button>
+        <button className="scale-y-[1.1] hover:underline" id="month-button">
+          month
+        </button>
         <div className="h-8 w-[2px] scale-y-[1.6] bg-black"></div>
-        <button className="scale-y-[1.1] hover:underline">year</button>
+        <button className="scale-y-[1.1] hover:underline" id="year-button">
+          year
+        </button>
       </div>
       {/* Buttons TODO: add zooming frame */}
       <div className="text-right">

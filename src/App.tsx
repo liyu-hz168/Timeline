@@ -9,9 +9,11 @@ import Timeline from "./components/timeline";
 import TimelineBar from "./components/timeline-bar";
 import { MemModalType } from "./components/MemModal";
 import { TimelineMainPage } from "./routing-pages/TimelineMainPage";
-        
+
 function App() {
-  const [memModals, setMemModals] = useState<MemoryCard[]>([...mockMemoryCards]);
+  const [memModals, setMemModals] = useState<MemoryCard[]>([
+    ...mockMemoryCards,
+  ]);
   const [isEditMode, changeMode] = useState<boolean>(false);
   // FIXME
   // Function to update position of a modal

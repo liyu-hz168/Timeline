@@ -1,17 +1,45 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Thumbnail from "./thumbnail";
 import {
   filterMemoryByWeek,
+  filterMemoryByMonth,
+  filterMemoryByYear,
   thumbnailInfo,
 } from "@/utils/FilterMemoryByDateRange";
 
 export default function Timeline() {
-  const dummyText =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-
   const scrollContainer1 = useRef<HTMLDivElement | null>(null);
   const scrollContainer2 = useRef<HTMLDivElement | null>(null);
+
+  const [viewMode, setViewMode] = useState("month");
+
+  const monthButton = document.getElementById("month-button");
+  const weekButton = document.getElementById("week-button");
+  const yearButton = document.getElementById("year-button");
+
+  monthButton?.addEventListener("click", () => {
+    setViewMode("month");
+    adjustThumbnailSize();
+  });
+  weekButton?.addEventListener("click", () => {
+    setViewMode("week");
+    adjustThumbnailSize();
+  });
+  yearButton?.addEventListener("click", () => {
+    setViewMode("year");
+    adjustThumbnailSize();
+  });
+
+  function viewShift(view: string): thumbnailInfo[] {
+    if (view === "week") {
+      return filterMemoryByWeek(new Date().toISOString().split("T")[0]);
+    } else if (view === "month") {
+      return filterMemoryByMonth(new Date().toISOString().split("T")[0]);
+    } else {
+      return filterMemoryByYear(new Date().toISOString().split("T")[0]);
+    }
+  }
 
   function getWindowDimensions() {
     const { innerWidth: vwidth, innerHeight: vheight } = window;
@@ -223,7 +251,7 @@ export default function Timeline() {
               marginRight: `${0.3 * vwidth}px`,
             }}
           >
-            {splitArray(filterMemoryByWeek("2025-03-31"))[0].map((e) => (
+            {splitArray(viewShift(viewMode))[0].map((e) => (
               <div
                 className="align-end relative flex justify-center"
                 key={e.date}
@@ -259,7 +287,7 @@ export default function Timeline() {
               marginRight: `${0.3 * vwidth + 70}px`,
             }}
           >
-            {splitArray(filterMemoryByWeek("2025-03-31"))[1].map((e) => (
+            {splitArray(viewShift(viewMode))[1].map((e) => (
               <div className="relative flex justify-center" key={e.date}>
                 <div className="absolute top-1/2 z-0 mt-[-200px] h-[200px] w-[0.4rem] -translate-y-1/2 bg-black"></div>
                 <Thumbnail
@@ -294,9 +322,9 @@ function splitArray(arr: thumbnailInfo[]) {
     }
   });
 
-  //ensure the top array has one more element than the second
   if (evenIndexed.length <= oddIndexed.length) {
-    evenIndexed.push(arr[evenIndexed.length + oddIndexed.length]);
+    evenIndexed.push(oddIndexed[oddIndexed.length - 1]);
+    oddIndexed.pop();
   }
 
   return [evenIndexed, oddIndexed];
