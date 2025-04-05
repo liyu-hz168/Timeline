@@ -1,10 +1,6 @@
-// import 
-
-type MemoryModalType = "text" | "image";
-
 type MemoryModal = {
   id: number;
-  type: MemoryModalType;
+  type: "text" | "image";
   content: string;
 }
 
@@ -15,7 +11,7 @@ type PreviewCardProp = {
   onExpand: () => void;
 }
 
-function PreviewCard({ created, memoryModals, onClose, onExpand }: PreviewCardProp) {
+function PreviewCard({ created, memoryModals, onClose, onExpand}: PreviewCardProp) {
   const title = new Date(created).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -25,8 +21,13 @@ function PreviewCard({ created, memoryModals, onClose, onExpand }: PreviewCardPr
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-2xl p-6 w-[800px] max-w-[95%] relative border border-gray-200">
+        {/* Header */}
         <div className="flex justify-between items-center mb-4 px-1">
-          <button onClick={onExpand} title="Expand" className="text-xl">
+          <button 
+            onClick={onExpand} 
+            title="Expand" 
+            className="text-gray-500 hover:text-black text-xl"
+          >
             ⤢
           </button>
           <h2 className="text-xl font-serif text-center flex-1 -ml-6">{title}</h2>
@@ -39,6 +40,7 @@ function PreviewCard({ created, memoryModals, onClose, onExpand }: PreviewCardPr
           </button>
         </div>
 
+        {/* Content */}
         <div className="flex flex-col gap-4">
           {memoryModals.map((modal) => {
             if (modal.type === "image") {
