@@ -212,7 +212,7 @@ export default function Timeline() {
       >
         <div
           ref={scrollContainer1}
-          className="thumbnail-gallery flex h-[50vh] w-[100vw] items-end overflow-x-scroll pb-4"
+          className="thumbnail-gallery flex h-[45vh] w-[100vw] items-end overflow-x-scroll pb-4"
         >
           <div
             className="grid-cols-[auto auto auto auto auto auto auto] grid grid-flow-col items-end gap-[40px] p-[10px]"
@@ -244,7 +244,7 @@ export default function Timeline() {
       >
         <div
           ref={scrollContainer2}
-          className="thumbnail-gallery flex h-[50vh] w-[100vw] overflow-x-scroll pt-4"
+          className="thumbnail-gallery flex h-[45vh] w-[100vw] overflow-x-scroll pt-4"
         >
           <div
             className="grid-cols-[auto auto auto auto auto] ml-[70px] mr-[70px] grid h-[100%] grid-flow-col gap-[40px] p-[10px]"
