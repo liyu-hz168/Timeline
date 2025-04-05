@@ -17,7 +17,7 @@ export function useSettingsContext() {
   return context;
 }
 
-import { MemModalType } from "./MemModal";
+import { MemoryCard } from "./MemoryCard";
 
 /* 
 export type MemModalType = {
@@ -29,8 +29,8 @@ export type MemModalType = {
 */
 
 type MemModalContextType = {
-  memModals: MemModalType[];
-  setMemModals: (arg: MemModalType[]) => void;
+  memModals: MemoryCard[];
+  setMemModals: (arg: MemoryCard[]) => void;
   updateMemModalPosition: (
     id: string,
     newPosition: { x: number; y: number },
@@ -49,13 +49,12 @@ export function useMemModalContext() {
   return context;
 }
 
-
 //context for editing mode
 type EditContextType = {
-  isEditMode: boolean,
-  changeMode: (arg:boolean) => void
+  isEditMode: boolean;
+  changeMode: (arg: boolean) => void;
 };
-export const EditingContext = createContext< EditContextType | undefined>(
+export const EditingContext = createContext<EditContextType | undefined>(
   undefined,
 );
 
@@ -67,4 +66,3 @@ export function useEditingContext() {
   }
   return context;
 }
-

@@ -2,6 +2,7 @@ import { MemoryPage } from "@/components/MemoryPage";
 import { useParams } from "react-router-dom";
 import { useMemModalContext, useEditingContext } from "@/components/context";
 import { useNavigate } from "react-router-dom";
+import { MemoryCard } from "@/components/MemoryCard";
 
 // Route `/edit/:date extract date
 // Render the corresponding memory page in edit mode
@@ -41,10 +42,9 @@ const EditMemoryPage = () => {
   }
   const dateTitle = formatDate(date!);
   //Default memory modal when created
-  const newMemModal = () => {
+  function newMemModal():MemoryCard{
     return {
       id: new Date().toISOString(), // long date string, should be unique unless new modals created less than milisec apart
-      body: "New Memory Modal",
       date: date!, //YYYY-MM-DD
       position: { x: 0, y: 0 },
     };

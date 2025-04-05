@@ -3,11 +3,15 @@ import { TimelinePage } from "./routing-pages/TimelinePage";
 import { EditMemoryPage } from "./routing-pages/EditMemoryPage";
 import { useState } from "react";
 import { MemModalContext, EditingContext } from "@/components/context";
+import { MemoryCard } from "./components/MemoryCard";
+import { mockMemoryCards } from "./data/mockMemoryCards";
+import Timeline from "./components/timeline";
+import TimelineBar from "./components/timeline-bar";
 import { MemModalType } from "./components/MemModal";
 import { TimelineMainPage } from "./routing-pages/TimelineMainPage";
-
+        
 function App() {
-  const [memModals, setMemModals] = useState<MemModalType[]>([]);
+  const [memModals, setMemModals] = useState<MemoryCard[]>([...mockMemoryCards]);
   const [isEditMode, changeMode] = useState<boolean>(false);
   // FIXME
   // Function to update position of a modal
@@ -22,7 +26,6 @@ function App() {
       return updatedModals;
     });
   };
-
   return (
     <MemModalContext.Provider
       value={{ memModals, setMemModals, updateMemModalPosition }}

@@ -1,31 +1,31 @@
-import React, { useRef, useState, useEffect} from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useMemModalContext } from "./context";
 import { useEditingContext } from "./context";
-
+import { MemoryModule } from "./MemoryModule";
 // TODO: Make memory modals reusable, input values { contentType, position, date }
 // Maybe use date to uniquely identify which memory the modals belong to
 // Make sure to set an unique key for each memory component ex date-something
-export type MemModalType = {
-    id: string, // new Date()
-    body: string, // What the modal holds
-    date: string, //YYYY-MM-DD
-    position: { x: number; y: number }
+export type MemoryCard = {
+  id: string; // new Date()
+  date: string; //YYYY-MM-DD
+  position: { x: number; y: number };
+  memoryID: string; // The memory contained for this card
 };
 
 const MemModal = ({
   memModal,
-  id, 
+  id,
   updatePosition,
   memPageRef,
 }: {
-  memModal: MemModalType,
-  id:string,
-  updatePosition: (id: string, newPosition: { x: number; y: number }) => void,
-  memPageRef: React.RefObject<HTMLDivElement>
+  memModal: MemoryCard;
+  id: string;
+  updatePosition: (id: string, newPosition: { x: number; y: number }) => void;
+  memPageRef: React.RefObject<HTMLDivElement>;
 }) => {
-
   const [position, setPosition] = useState(memModal.position);
   const { memModals, setMemModals } = useMemModalContext();
+  console.log(memModals)
   const { isEditMode } = useEditingContext();
 
   //When dragging around, memory modal must stay in bound
@@ -71,22 +71,21 @@ const MemModal = ({
     setMemModals(updatedModules);
   };
 
-  const memModalRef = useRef<HTMLDivElement>(null); 
+  const memModalRef = useRef<HTMLDivElement>(null);
   const isClicked = useRef<boolean>(false);
   const coords = useRef<{
-    startX: number, 
-    startY: number, 
-    lastX: number,
-    lastY: number
+    startX: number;
+    startY: number;
+    lastX: number;
+    lastY: number;
   }>({
-    startX: 0, 
-    startY: 0, 
-    lastX: 0, 
-    lastY: 0
-  })
+    startX: 0,
+    startY: 0,
+    lastX: 0,
+    lastY: 0,
+  });
 
-
-  useEffect(()=> {
+  useEffect(() => {
     if (!isEditMode) return; // Disable drag unless in edit mode
     if (!memModalRef.current || !memPageRef.current) return; // make sure the elements in question actually exist
 
@@ -100,7 +99,6 @@ const MemModal = ({
       coords.current.lastX = memModal.offsetLeft;
       coords.current.lastY = memModal.offsetTop;
 
-
       isClicked.current = true;
       coords.current.startX = e.clientX;
       coords.current.startY = e.clientY;
@@ -112,7 +110,7 @@ const MemModal = ({
       // Store new position
       coords.current.lastX = memModal.offsetLeft;
       coords.current.lastY = memModal.offsetTop;
-      updatePosition(id, { x: coords.current.lastX, y: coords.current.lastY});
+      updatePosition(id, { x: coords.current.lastX, y: coords.current.lastY });
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -124,9 +122,8 @@ const MemModal = ({
       memModal.style.top = `${nextY}px`;
       memModal.style.left = `${nextX}px`;
 
-      setPosition({x:nextX, y:nextY}); //Update positon locally as move is performed
+      setPosition({ x: nextX, y: nextY }); //Update positon locally as move is performed
       updatePosition(memModal.id, { x: nextX, y: nextY }); // Update global state
-
     };
 
     memModal.addEventListener("mousedown", handleMouseDown);
@@ -139,22 +136,23 @@ const MemModal = ({
       memModal.removeEventListener("mouseup", handleMouseUp);
       memPage.removeEventListener("mousemove", handleMouseMove);
       memPage.removeEventListener("mouseleave", handleMouseUp);
-
-    }
+    };
 
     return cleanUp;
   }, [isEditMode]);
 
   return (
     <div
-      className="memory-modal absolute h-[200px] w-[200px] rounded-lg border border-black bg-white p-6"
+      className="memory-modal absolute h-[200px] w-[200px] rounded-lg border border-black bg-white p-4"
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
       }}
       ref={memModalRef}
     >
-      Mock Memory Modal
+      <MemoryModule
+       memoryID = {memModal.memoryID}
+      />
       {isEditMode && (
         <button
           className="delete-button absolute right-2 top-2 rounded bg-gray-200 px-2 py-1 text-xs text-white hover:bg-gray-400"
