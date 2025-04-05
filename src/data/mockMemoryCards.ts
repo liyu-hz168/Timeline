@@ -8,32 +8,26 @@ function getRandomPosition() {
   };
 }
 
-const mockMemoryCards: MemoryCard[] = [
-  {
-    id: "mem-card-1",
-    date: "2025-03-31", // Example date in ISO format
-    position: getRandomPosition(), // Random position for demonstration
-    memoryID: "mem-1", // This should correspond to an actual memory in your memory store
-  },
-  
-  {
-    id: "mem-card-2",
-    date: "2025-03-31", // Example date in ISO format
-    position: getRandomPosition(), // Random position for demonstration
-    memoryID: "mem-2", // This should correspond to an actual memory in your memory store
-  },
-  {
-    id: "mem-card-3",
-    date: "2025-03-31", // Example date in ISO format
-    position: getRandomPosition(), // Random position for demonstration
-    memoryID: "mem-3", // This should correspond to an actual memory in your memory store
-  },
-  {
-    id: "mem-card-4",
-    date: "2025-03-31", // Example date in ISO format
-    position: getRandomPosition(), // Random position for demonstration
-    memoryID: "mem-4", // This should correspond to an actual memory in your memory store
-  },
-];
+function generateMemoryCards(startDate: string, numDays: number): MemoryCard[] {
+  const memoryCards: MemoryCard[] = [];
+
+  for (let i = 1; i <= numDays * 4; i++) {
+    const date = new Date(startDate);
+    date.setDate(date.getDate() + Math.floor(i / 4)); //increment the date by one day every 4 cards
+
+    const card: MemoryCard = {
+      id: `mem-card-${i}`,
+      date: date.toISOString().split("T")[0], //date in YYYY-MM-DD format
+      position: getRandomPosition(),
+      memoryID: `mem-${i}`,
+    };
+
+    memoryCards.push(card);
+  }
+
+  return memoryCards;
+}
+
+const mockMemoryCards = generateMemoryCards("2025-03-31", 100);
 
 export { mockMemoryCards };

@@ -47,8 +47,9 @@ const EditMemoryPage = () => {
       id: new Date().toISOString(), // long date string, should be unique unless new modals created less than milisec apart
       date: date!, //YYYY-MM-DD
       position: { x: 0, y: 0 },
+      memoryID: ""
     };
-  };
+  }
 
   const navigate = useNavigate();
   return (

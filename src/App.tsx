@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { TimelinePage } from "./routing-pages/TimelinePage";
+import { TimelineMainPage } from "./routing-pages/TimelineMainPage";
 import { EditMemoryPage } from "./routing-pages/EditMemoryPage";
 import { useState } from "react";
+import LoginSignup from "./routing-pages/login-signup/LoginSignup";
 import { MemModalContext, EditingContext } from "@/components/context";
 import { MemoryCard } from "./components/MemoryCard";
 import { mockMemoryCards } from "./data/mockMemoryCards";
-import Timeline from "./components/timeline";
-import TimelineBar from "./components/timeline-bar";
+
 function App() {
   const [memModals, setMemModals] = useState<MemoryCard[]>([...mockMemoryCards]);
   const [isEditMode, changeMode] = useState<boolean>(false);
@@ -30,17 +30,12 @@ function App() {
       <EditingContext.Provider value={{ isEditMode, changeMode }}>
         <Router>
           <Routes>
-            <Route path="/" element={<TimelinePage />} />
+            <Route path="/" element={<LoginSignup />} />
             <Route path="/edit/:date" element={<EditMemoryPage />} />
             {/* use useParam to extract date from URL */}
+            <Route path="/timeline" element={<TimelineMainPage/>}></Route>
           </Routes>
         </Router>
-        <div className="relative flex h-[100vh] w-[100vw] items-center">
-      <div className="absolute w-[100%]">
-        <Timeline />
-      </div>
-      <TimelineBar />
-    </div>
       </EditingContext.Provider>
     </MemModalContext.Provider>
   );
@@ -48,3 +43,4 @@ function App() {
 
 
 export default App;
+

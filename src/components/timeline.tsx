@@ -1,13 +1,47 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Thumbnail from "./thumbnail";
+import {
+  filterMemoryByWeek,
+  filterMemoryByMonth,
+  filterMemoryByYear,
+  thumbnailInfo,
+} from "@/utils/FilterMemoryByDateRange";
+import { MemoryPage } from "./MemoryPage";
+import { useNavigate } from "react-router-dom";
 
 export default function Timeline() {
-  const dummyText =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
-
   const scrollContainer1 = useRef<HTMLDivElement | null>(null);
   const scrollContainer2 = useRef<HTMLDivElement | null>(null);
+
+  const [viewMode, setViewMode] = useState("month");
+
+  const monthButton = document.getElementById("month-button");
+  const weekButton = document.getElementById("week-button");
+  const yearButton = document.getElementById("year-button");
+
+  monthButton?.addEventListener("click", () => {
+    setViewMode("month");
+    adjustThumbnailSize();
+  });
+  weekButton?.addEventListener("click", () => {
+    setViewMode("week");
+    adjustThumbnailSize();
+  });
+  yearButton?.addEventListener("click", () => {
+    setViewMode("year");
+    adjustThumbnailSize();
+  });
+
+  function viewShift(view: string): thumbnailInfo[] {
+    if (view === "week") {
+      return filterMemoryByWeek(new Date().toISOString().split("T")[0]);
+    } else if (view === "month") {
+      return filterMemoryByMonth(new Date().toISOString().split("T")[0]);
+    } else {
+      return filterMemoryByYear(new Date().toISOString().split("T")[0]);
+    }
+  }
 
   function getWindowDimensions() {
     const { innerWidth: vwidth, innerHeight: vheight } = window;
@@ -36,19 +70,17 @@ export default function Timeline() {
 
   const { vheight, vwidth } = useWindowDimensions();
 
-  const rightArrow = document.getElementById("right-arrow");
-
   useEffect(() => {
     const leftArrow = document.getElementById("left-arrow");
     console.log("click");
     const handleLeftClick = () => {
       gsap.to([scrollContainer1.current, scrollContainer2.current], {
-        scrollLeft: (index) =>
+        scrollLeft: (index: number) =>
           index === 0
-            ? scrollContainer1.current?.scrollLeft -
-              0.5 * (vwidth - 2 * (0.048 * vwidth + 70))
-            : scrollContainer2.current?.scrollLeft -
-              0.5 * (vwidth - 2 * (0.048 * vwidth + 70)),
+            ? (scrollContainer1.current?.scrollLeft ??
+              -0.5 * (vwidth - 2 * (0.048 * vwidth + 70)))
+            : (scrollContainer2.current?.scrollLeft ??
+              -0.5 * (vwidth - 2 * (0.048 * vwidth + 70))),
         duration: 2,
         ease: "power2.out",
       });
@@ -199,6 +231,7 @@ export default function Timeline() {
     adjustThumbnailSize();
   }, [vwidth]);
 
+  const navigate = useNavigate();
   return (
     <div className="align-center z-50 flex w-[100vw] flex-col justify-center">
       {/* top scroll */}
@@ -212,7 +245,7 @@ export default function Timeline() {
       >
         <div
           ref={scrollContainer1}
-          className="thumbnail-gallery flex h-[50vh] w-[100vw] items-end overflow-x-scroll pb-4"
+          className="thumbnail-gallery flex h-[45vh] w-[100vw] items-end overflow-x-scroll pb-4"
         >
           <div
             className="grid-cols-[auto auto auto auto auto auto auto] grid grid-flow-col items-end gap-[40px] p-[10px]"
@@ -221,13 +254,23 @@ export default function Timeline() {
               marginRight: `${0.3 * vwidth}px`,
             }}
           >
-            {Array.from({ length: 25 }).map((e, index) => (
+            {splitArray(viewShift(viewMode))[0].map((e) => (
               <div
                 className="align-end relative flex justify-center"
-                key={index}
+                key={e.date}
               >
                 <div className="absolute z-0 h-[500px] w-[0.4rem] bg-black"></div>
-                <Thumbnail text={dummyText} image="/sample1.jpg" />
+                <button
+                  onClick={() => {
+                  navigate(`/edit/${e.date!}`);
+                  }}
+                >
+                  <Thumbnail
+                    text={e ? e.text : null}
+                    image={e ? e.image : null}
+                    date={e ? e.date : null}
+                  />
+                </button>
               </div>
             ))}
           </div>
@@ -244,7 +287,7 @@ export default function Timeline() {
       >
         <div
           ref={scrollContainer2}
-          className="thumbnail-gallery flex h-[50vh] w-[100vw] overflow-x-scroll pt-4"
+          className="thumbnail-gallery flex h-[45vh] w-[100vw] overflow-x-scroll pt-4"
         >
           <div
             className="grid-cols-[auto auto auto auto auto] ml-[70px] mr-[70px] grid h-[100%] grid-flow-col gap-[40px] p-[10px]"
@@ -253,10 +296,14 @@ export default function Timeline() {
               marginRight: `${0.3 * vwidth + 70}px`,
             }}
           >
-            {Array.from({ length: 24 }).map((e, index) => (
-              <div className="relative flex justify-center" key={index}>
+            {splitArray(viewShift(viewMode))[1].map((e) => (
+              <div className="relative flex justify-center" key={e.date}>
                 <div className="absolute top-1/2 z-0 mt-[-200px] h-[200px] w-[0.4rem] -translate-y-1/2 bg-black"></div>
-                <Thumbnail text={dummyText} image="/sample1.jpg" />
+                <Thumbnail
+                  text={e ? e.text : null}
+                  image={e ? e.image : null}
+                  date={e ? e.date : null}
+                />
               </div>
             ))}
           </div>
@@ -270,4 +317,24 @@ function gaussian(x, mean, stdDev) {
   const exponent = -0.5 * Math.pow((x - mean) / stdDev, 2);
   const coefficient = 1 / (stdDev * Math.sqrt(2 * Math.PI));
   return coefficient * Math.exp(exponent);
+}
+
+function splitArray(arr: thumbnailInfo[]) {
+  const evenIndexed: thumbnailInfo[] = [];
+  const oddIndexed: thumbnailInfo[] = [];
+
+  arr.forEach((item, index) => {
+    if (index % 2 === 0) {
+      evenIndexed.push(item);
+    } else {
+      oddIndexed.push(item);
+    }
+  });
+
+  if (evenIndexed.length <= oddIndexed.length) {
+    evenIndexed.push(oddIndexed[oddIndexed.length - 1]);
+    oddIndexed.pop();
+  }
+
+  return [evenIndexed, oddIndexed];
 }
