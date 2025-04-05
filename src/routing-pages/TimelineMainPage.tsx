@@ -5,7 +5,7 @@ import { NavBar } from "@/components/NavBar";
 const TimelineMainPage = () => {
   return (
     <div className="flex flex-col">
-      <NavBar />
+      {/* <NavBar /> */}
       <div className="relative flex h-[100vh] w-[100vw] items-center">
         <div className="absolute w-[100%]">
           <Timeline />

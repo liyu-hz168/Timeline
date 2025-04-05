@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Thumbnail from "./thumbnail";
+import {
+  filterMemoryByWeek,
+  thumbnailInfo,
+} from "@/utils/FilterMemoryByDateRange";
 
 export default function Timeline() {
   const dummyText =
@@ -36,19 +40,17 @@ export default function Timeline() {
 
   const { vheight, vwidth } = useWindowDimensions();
 
-  const rightArrow = document.getElementById("right-arrow");
-
   useEffect(() => {
     const leftArrow = document.getElementById("left-arrow");
     console.log("click");
     const handleLeftClick = () => {
       gsap.to([scrollContainer1.current, scrollContainer2.current], {
-        scrollLeft: (index) =>
+        scrollLeft: (index: number) =>
           index === 0
-            ? scrollContainer1.current?.scrollLeft -
-              0.5 * (vwidth - 2 * (0.048 * vwidth + 70))
-            : scrollContainer2.current?.scrollLeft -
-              0.5 * (vwidth - 2 * (0.048 * vwidth + 70)),
+            ? (scrollContainer1.current?.scrollLeft ??
+              -0.5 * (vwidth - 2 * (0.048 * vwidth + 70)))
+            : (scrollContainer2.current?.scrollLeft ??
+              -0.5 * (vwidth - 2 * (0.048 * vwidth + 70))),
         duration: 2,
         ease: "power2.out",
       });
@@ -221,13 +223,17 @@ export default function Timeline() {
               marginRight: `${0.3 * vwidth}px`,
             }}
           >
-            {Array.from({ length: 25 }).map((e, index) => (
+            {splitArray(filterMemoryByWeek("2025-03-31"))[0].map((e) => (
               <div
                 className="align-end relative flex justify-center"
-                key={index}
+                key={e.date}
               >
                 <div className="absolute z-0 h-[500px] w-[0.4rem] bg-black"></div>
-                <Thumbnail text={dummyText} image="/sample1.jpg" />
+                <Thumbnail
+                  text={e ? e.text : null}
+                  image={e ? e.image : null}
+                  date={e ? e.date : null}
+                />
               </div>
             ))}
           </div>
@@ -253,10 +259,14 @@ export default function Timeline() {
               marginRight: `${0.3 * vwidth + 70}px`,
             }}
           >
-            {Array.from({ length: 24 }).map((e, index) => (
-              <div className="relative flex justify-center" key={index}>
+            {splitArray(filterMemoryByWeek("2025-03-31"))[1].map((e) => (
+              <div className="relative flex justify-center" key={e.date}>
                 <div className="absolute top-1/2 z-0 mt-[-200px] h-[200px] w-[0.4rem] -translate-y-1/2 bg-black"></div>
-                <Thumbnail text={dummyText} image="/sample1.jpg" />
+                <Thumbnail
+                  text={e ? e.text : null}
+                  image={e ? e.image : null}
+                  date={e ? e.date : null}
+                />
               </div>
             ))}
           </div>
@@ -270,4 +280,24 @@ function gaussian(x, mean, stdDev) {
   const exponent = -0.5 * Math.pow((x - mean) / stdDev, 2);
   const coefficient = 1 / (stdDev * Math.sqrt(2 * Math.PI));
   return coefficient * Math.exp(exponent);
+}
+
+function splitArray(arr: thumbnailInfo[]) {
+  const evenIndexed: thumbnailInfo[] = [];
+  const oddIndexed: thumbnailInfo[] = [];
+
+  arr.forEach((item, index) => {
+    if (index % 2 === 0) {
+      evenIndexed.push(item);
+    } else {
+      oddIndexed.push(item);
+    }
+  });
+
+  //ensure the top array has one more element than the second
+  if (evenIndexed.length <= oddIndexed.length) {
+    evenIndexed.push(arr[evenIndexed.length + oddIndexed.length]);
+  }
+
+  return [evenIndexed, oddIndexed];
 }
