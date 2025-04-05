@@ -9,8 +9,13 @@ import { MemoryCard } from "./components/MemoryCard";
 import { mockMemoryCards } from "./data/mockMemoryCards";
 import Timeline from "./components/timeline";
 import TimelineBar from "./components/timeline-bar";
+import { MemModalType } from "./components/MemModal";
+import { TimelineMainPage } from "./routing-pages/TimelineMainPage";
+
 function App() {
-  const [memModals, setMemModals] = useState<MemoryCard[]>([...mockMemoryCards]);
+  const [memModals, setMemModals] = useState<MemoryCard[]>([
+    ...mockMemoryCards,
+  ]);
   const [isEditMode, changeMode] = useState<boolean>(false);
   // FIXME
   // Function to update position of a modal
@@ -32,22 +37,16 @@ function App() {
       <EditingContext.Provider value={{ isEditMode, changeMode }}>
         <Router>
           <Routes>
-            <Route path="/" element={<TimelinePage />} />
+            <Route path="/view" element={<TimelinePage />} />
             <Route path="/edit/:date" element={<EditMemoryPage />} />
+            <Route path="/" element={<TimelineMainPage />} />
             {/* use useParam to extract date from URL */}
           </Routes>
         </Router>
-        <div className="relative flex h-[100vh] w-[100vw] items-center">
-      <div className="absolute w-[100%]">
-        <Timeline />
-      </div>
-      <TimelineBar />
-    </div>
       </EditingContext.Provider>
     </MemModalContext.Provider>
   );
 }
-
 
 export default App;
 
