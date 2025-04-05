@@ -1,60 +1,53 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { TimelinePage } from "./routing-pages/TimelinePage";
+import { EditMemoryPage } from "./routing-pages/EditMemoryPage";
 import { useState } from "react";
-import PreviewCard from "./components/PreviewCard";
 
-type MemoryModalType = "text" | "image";
 
-type MemoryModal = {
-  id: number;
-  type: MemoryModalType;
-  content: string;
-}
-
-type Memory = {
-  id: number;
-  created: string;
-  memoryModals: MemoryModal[]
-}
-
+import { MemModalContext, EditingContext } from "@/components/context";
+import { MemoryCard } from "./components/MemoryCard";
+import { mockMemoryCards } from "./data/mockMemoryCards";
+import Timeline from "./components/timeline";
+import TimelineBar from "./components/timeline-bar";
 function App() {
-  const mockMemories: Memory[] = [
-    { 
-      id: 1,
-      created: "2020-01-01",
-      memoryModals: [
-        {
-          id: 101,
-          type: "image",
-          content:
-            "https://res.cloudinary.com/icelandtours/g_auto,f_auto,c_fill,w_2048,q_auto:good/northern_lights_above_glacier_lagoon_v2osk_unsplash_7d39ca647f.jpg"
-        },
-        {
-          id: 102,
-          type: "text",
-          content:
-            "This phenomenon is created by giant flares from the sun or solar storms. These happen about 150 million kilometers away from Earth. The flares then send blasts of charged particles towards our planet."
-        }
-      ]
-    }
-  ]
-
-  const [showPreview, setShowPreview] = useState(true);
-
-  const mockData = mockMemories[0];
-
-  
-
+  const [memModals, setMemModals] = useState<MemoryCard[]>([...mockMemoryCards]);
+  const [isEditMode, changeMode] = useState<boolean>(false);
+  // FIXME
+  // Function to update position of a modal
+  const updateMemModalPosition = (
+    id: string,
+    newPosition: { x: number; y: number },
+  ) => {
+    setMemModals((prevModals) => {
+      const updatedModals = prevModals.map((modal) =>
+        modal.id === id ? { ...modal, position: newPosition } : modal,
+      );
+      return updatedModals;
+    });
+  };
   return (
-    <div>
-      {showPreview && (
-        <PreviewCard
-          created={mockData.created}
-          memoryModals={mockData.memoryModals}
-          onClose={() => setShowPreview(false)}
-          onExpand={() => alert("Expand view!")}
-        />
-      )}
+    <MemModalContext.Provider
+      value={{ memModals, setMemModals, updateMemModalPosition }}
+    >
+      <EditingContext.Provider value={{ isEditMode, changeMode }}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<TimelinePage />} />
+            <Route path="/edit/:date" element={<EditMemoryPage />} />
+            {/* use useParam to extract date from URL */}
+          </Routes>
+        </Router>
+        <div className="relative flex h-[100vh] w-[100vw] items-center">
+      <div className="absolute w-[100%]">
+        <Timeline />
+      </div>
+      <TimelineBar />
     </div>
-  )
+      </EditingContext.Provider>
+    </MemModalContext.Provider>
+  );
 }
+
 
 export default App;
+
