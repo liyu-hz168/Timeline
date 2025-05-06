@@ -23,7 +23,6 @@ export default function Thumbnail({
         const lineHeight = parseFloat(computedStyle.lineHeight) || 17; //fallback if line-height isn't defined
         const maxLines = Math.floor(height / lineHeight);
         setLineClamp(maxLines);
-        console.log(height);
       }
     };
 

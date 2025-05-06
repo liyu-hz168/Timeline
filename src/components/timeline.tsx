@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Thumbnail from "./thumbnail";
 import {
@@ -7,7 +7,6 @@ import {
   filterMemoryByYear,
   thumbnailInfo,
 } from "@/utils/FilterMemoryByDateRange";
-import { MemoryPage } from "./MemoryPage";
 import { useNavigate } from "react-router-dom";
 
 export default function Timeline() {
@@ -257,12 +256,12 @@ export default function Timeline() {
             {splitArray(viewShift(viewMode))[0].map((e) => (
               <div
                 className="align-end relative flex justify-center"
-                key={e.date}
+                key={e ? e.date : 1}
               >
                 <div className="absolute z-0 h-[500px] w-[0.4rem] bg-black"></div>
                 <button
                   onClick={() => {
-                  navigate(`/edit/${e.date!}`);
+                    navigate(`/edit/${e.date!}`);
                   }}
                 >
                   <Thumbnail
