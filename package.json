@@ -18,11 +18,9 @@
     "express": "^5.1.0",
     "framer-motion": "^11.13.5",
     "gsap": "^3.12.7",
-    "mongodb": "6.16",
-    "mongoose": "^8.14.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.4.1",
+    "react-router-dom": "^7.5.3",
     "react-zoom-pan-pinch": "^3.7.0",
     "tailwind-merge": "^2.5.5"
   },
@@ -56,7 +54,7 @@
     "storybook": "^8.6.4",
     "tailwindcss": "^3.4.5",
     "typescript": "^5.5.4",
-    "vite": "^6.2.2",
+    "vite": "^6.3.5",
     "vitest": "^3.0.8"
   },
   "eslintConfig": {
