@@ -6,7 +6,7 @@ const TimelineMainPage = () => {
   return (
     <div className="flex flex-col">
       <NavBar />
-      <div className="relative flex h-[90vh] w-[100vw] items-center">
+      <div className="relative mt-[-30px] flex h-[90vh] w-[100vw] items-center">
         <div className="absolute w-[100%]">
           <Timeline />
         </div>
