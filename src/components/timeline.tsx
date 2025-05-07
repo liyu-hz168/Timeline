@@ -13,6 +13,9 @@ export default function Timeline() {
   const scrollContainer1 = useRef<HTMLDivElement | null>(null);
   const scrollContainer2 = useRef<HTMLDivElement | null>(null);
 
+  //this state will always show the date in the center
+  const [centerDate, setCenterDate] = useState<string | null>(null);
+
   const [viewMode, setViewMode] = useState("month");
 
   const monthButton = document.getElementById("month-button");
@@ -253,25 +256,26 @@ export default function Timeline() {
               marginRight: `${0.3 * vwidth}px`,
             }}
           >
-            {splitArray(viewShift(viewMode))[0].map((e) => (
-              <div
-                className="align-end relative flex justify-center"
-                key={e ? e.date : 1}
-              >
-                <div className="absolute z-0 h-[500px] w-[0.4rem] bg-black"></div>
-                <button
-                  onClick={() => {
-                    navigate(`/edit/${e.date!}`);
-                  }}
+            {splitArray(viewShift(viewMode))[0].length > 0 &&
+              splitArray(viewShift(viewMode))[0].map((e) => (
+                <div
+                  className="align-end relative flex justify-center"
+                  key={e ? e.date : 1}
                 >
-                  <Thumbnail
-                    text={e ? e.text : null}
-                    image={e ? e.image : null}
-                    date={e ? e.date : null}
-                  />
-                </button>
-              </div>
-            ))}
+                  <div className="absolute z-0 h-[500px] w-[0.4rem] bg-black"></div>
+                  <button
+                    onClick={() => {
+                      navigate(`/edit/${e.date!}`);
+                    }}
+                  >
+                    <Thumbnail
+                      text={e ? e.text : null}
+                      image={e ? e.image : null}
+                      date={e ? e.date : null}
+                    />
+                  </button>
+                </div>
+              ))}
           </div>
         </div>
       </div>
@@ -295,16 +299,17 @@ export default function Timeline() {
               marginRight: `${0.3 * vwidth + 70}px`,
             }}
           >
-            {splitArray(viewShift(viewMode))[1].map((e) => (
-              <div className="relative flex justify-center" key={e.date}>
-                <div className="absolute top-1/2 z-0 mt-[-200px] h-[200px] w-[0.4rem] -translate-y-1/2 bg-black"></div>
-                <Thumbnail
-                  text={e ? e.text : null}
-                  image={e ? e.image : null}
-                  date={e ? e.date : null}
-                />
-              </div>
-            ))}
+            {splitArray(viewShift(viewMode))[1].length > 0 &&
+              splitArray(viewShift(viewMode))[1].map((e) => (
+                <div className="relative flex justify-center" key={e.date}>
+                  <div className="absolute top-1/2 z-0 mt-[-200px] h-[200px] w-[0.4rem] -translate-y-1/2 bg-black"></div>
+                  <Thumbnail
+                    text={e ? e.text : null}
+                    image={e ? e.image : null}
+                    date={e ? e.date : null}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </div>

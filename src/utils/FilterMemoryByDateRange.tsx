@@ -68,6 +68,7 @@ export function filterMemoryByWeek(startDate: string): thumbnailInfo[] {
     }
   }
 
+  console.log(thumbnailInfoArray);
   return thumbnailInfoArray;
 }
 

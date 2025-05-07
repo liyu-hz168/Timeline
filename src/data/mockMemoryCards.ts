@@ -28,6 +28,6 @@ function generateMemoryCards(startDate: string, numDays: number): MemoryCard[] {
   return memoryCards;
 }
 
-const mockMemoryCards = generateMemoryCards("2025-03-31", 100);
+const mockMemoryCards = generateMemoryCards("2025-03-31", 365);
 
 export { mockMemoryCards };
