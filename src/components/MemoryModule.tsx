@@ -5,6 +5,11 @@ export interface Memory {
   content: string;
 }
 
+export type PreviewMemory = {
+  created: string;
+  memoryModals: Memory[];
+};
+
 function lookUpMemory(memoryID: string): Memory | null {
   if (!memoryID || memoryID === "") {
     console.error("No memoryID provided");

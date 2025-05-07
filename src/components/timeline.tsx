@@ -8,8 +8,14 @@ import {
   thumbnailInfo,
 } from "@/utils/FilterMemoryByDateRange";
 import { useNavigate } from "react-router-dom";
+import { Memory } from "./MemoryModule";
+import { PreviewMemory } from "@/components/MemoryModule";
 
-export default function Timeline() {
+type TimelineProps = {
+  onPreview: (preview: PreviewMemory) => void;
+};
+
+export default function Timeline({ onPreview }: TimelineProps) {
   const scrollContainer1 = useRef<HTMLDivElement | null>(null);
   const scrollContainer2 = useRef<HTMLDivElement | null>(null);
 
@@ -231,6 +237,8 @@ export default function Timeline() {
   }, [vwidth]);
 
   const navigate = useNavigate();
+  // Removed duplicate onPreview function to avoid conflict with the prop.
+
   return (
     <div className="align-center z-50 flex w-[100vw] flex-col justify-center">
       {/* top scroll */}
@@ -261,7 +269,13 @@ export default function Timeline() {
                 <div className="absolute z-0 h-[500px] w-[0.4rem] bg-black"></div>
                 <button
                   onClick={() => {
-                    navigate(`/edit/${e.date!}`);
+                    onPreview({
+                      created: e.date!,
+                      memoryModals: [
+                        ...(e.text ? [{ type: "text", content: e.text }] : []),
+                        ...(e.image ? [{ type: "image", content: e.image }] : []),
+                      ],
+                    });
                   }}
                 >
                   <Thumbnail

@@ -6,6 +6,7 @@ import LoginSignup from "./routing-pages/login-signup/LoginSignup";
 import { MemModalContext, EditingContext } from "@/components/context";
 import { MemoryCard } from "./components/MemoryCard";
 import { mockMemoryCards } from "./data/mockMemoryCards";
+import { mockMemories } from "./data/mockMemories";
 
 function App() {
   const [memModals, setMemModals] = useState<MemoryCard[]>([...mockMemoryCards]);
@@ -33,7 +34,14 @@ function App() {
             <Route path="/" element={<LoginSignup />} />
             <Route path="/edit/:date" element={<EditMemoryPage />} />
             {/* use useParam to extract date from URL */}
-            <Route path="/timeline" element={<TimelineMainPage/>}></Route>
+            <Route 
+              path="/timeline" 
+              element={
+                <TimelineMainPage
+                  memories={mockMemories}
+                />
+              }
+            />
           </Routes>
         </Router>
       </EditingContext.Provider>
