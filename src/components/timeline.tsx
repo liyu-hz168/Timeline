@@ -1,46 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Thumbnail from "./thumbnail";
-import {
-  filterMemoryByWeek,
-  filterMemoryByMonth,
-  filterMemoryByYear,
-  thumbnailInfo,
-} from "@/utils/FilterMemoryByDateRange";
+import { thumbnailInfo } from "@/utils/FilterMemoryByDateRange";
 import { useNavigate } from "react-router-dom";
 
-export default function Timeline() {
+export default function Timeline({
+  memories,
+}: {
+  memories: thumbnailInfo[];
+}) {
   const scrollContainer1 = useRef<HTMLDivElement | null>(null);
   const scrollContainer2 = useRef<HTMLDivElement | null>(null);
-
-  const [viewMode, setViewMode] = useState("month");
-
-  const monthButton = document.getElementById("month-button");
-  const weekButton = document.getElementById("week-button");
-  const yearButton = document.getElementById("year-button");
-
-  monthButton?.addEventListener("click", () => {
-    setViewMode("month");
-    adjustThumbnailSize();
-  });
-  weekButton?.addEventListener("click", () => {
-    setViewMode("week");
-    adjustThumbnailSize();
-  });
-  yearButton?.addEventListener("click", () => {
-    setViewMode("year");
-    adjustThumbnailSize();
-  });
-
-  function viewShift(view: string): thumbnailInfo[] {
-    if (view === "week") {
-      return filterMemoryByWeek(new Date().toISOString().split("T")[0]);
-    } else if (view === "month") {
-      return filterMemoryByMonth(new Date().toISOString().split("T")[0]);
-    } else {
-      return filterMemoryByYear(new Date().toISOString().split("T")[0]);
-    }
-  }
 
   function getWindowDimensions() {
     const { innerWidth: vwidth, innerHeight: vheight } = window;
@@ -253,7 +223,7 @@ export default function Timeline() {
               marginRight: `${0.3 * vwidth}px`,
             }}
           >
-            {splitArray(viewShift(viewMode))[0].map((e) => (
+            {splitArray(memories)[0].map((e) => (
               <div
                 className="align-end relative flex justify-center"
                 key={e ? e.date : 1}
@@ -295,7 +265,7 @@ export default function Timeline() {
               marginRight: `${0.3 * vwidth + 70}px`,
             }}
           >
-            {splitArray(viewShift(viewMode))[1].map((e) => (
+            {splitArray(memories)[1].map((e) => (
               <div className="relative flex justify-center" key={e.date}>
                 <div className="absolute top-1/2 z-0 mt-[-200px] h-[200px] w-[0.4rem] -translate-y-1/2 bg-black"></div>
                 <Thumbnail

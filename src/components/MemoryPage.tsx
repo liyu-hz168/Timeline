@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from "react";
 import { MemModal, MemoryCard } from "./MemoryCard";
 import { useMemModalContext, useEditingContext } from "./context";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // Each memory page should also be unique
 // Unique key can be the date
@@ -16,14 +17,44 @@ const MemoryPage = ({ date }: { date: string }) => {
   };
 
   const memPageRef = useRef<HTMLDivElement>(null);
-  const { memModals, updateMemModalPosition } = useMemModalContext();
+  const { memModals, setMemModals, updateMemModalPosition } = useMemModalContext();
   const { isEditMode, changeMode } = useEditingContext();
   const [curModals, setCurModals] = useState<MemoryCard[]>(() =>
     loadMemForDate(memModals, date),
   );
+
   useEffect(() => {
     setCurModals(loadMemForDate(memModals, date));
   }, [memModals]);
+
+  const handleUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    modalId: string
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await axios.post("http://localhost:4000/api/editMemory", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      const fileUrl = res.data.url;
+      console.log("Uploaded file URL:", fileUrl);
+
+      const updated = memModals.map((m) =>
+        m.id === modalId ? { ...m, memoryID: fileUrl } : m
+      );
+      setMemModals(updated);
+
+    } catch (err) {
+      console.error("Upload failed", err);
+      alert("Upload failed. Try again.");
+    }
+  }
 
   const navigate = useNavigate();
   return (
@@ -46,13 +77,24 @@ const MemoryPage = ({ date }: { date: string }) => {
         )}
         {/* FIXME: change key in the future, to match unique id in database once backend implemented ? */}
         {curModals.map((memModal: MemoryCard) => (
-          <MemModal
-            key={memModal.id}
-            memModal={memModal}
-            id={memModal.id}
-            updatePosition={updateMemModalPosition}
-            memPageRef={memPageRef}
-          />
+          <>
+            <MemModal
+              key={memModal.id}
+              memModal={memModal}
+              id={memModal.id}
+              updatePosition={updateMemModalPosition}
+              memPageRef={memPageRef}
+            />
+            {isEditMode && (
+              <div className="mt-2">
+                <input
+                  type="file"
+                  accept="image/*,video/*,audio/*"
+                  onChange={(e) => handleUpload(e, memModal.id)}
+                />
+              </div>
+            )}
+          </>
         ))}
       </div>
     </>

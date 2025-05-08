@@ -33,7 +33,7 @@ function App() {
             <Route path="/" element={<LoginSignup />} />
             <Route path="/edit/:date" element={<EditMemoryPage />} />
             {/* use useParam to extract date from URL */}
-            <Route path="/timeline" element={<TimelineMainPage/>}></Route>
+            <Route path="/timeline" element={<TimelineMainPage />}></Route>
           </Routes>
         </Router>
       </EditingContext.Provider>
