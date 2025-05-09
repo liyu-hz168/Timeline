@@ -1,5 +1,5 @@
-import { mockMemories } from "@/data/mockMemories";
-import { mockMemoryCards } from "@/data/mockMemoryCards";
+// import { mockMemories } from "@/data/mockMemories";
+// import { mockMemoryCards } from "@/data/mockMemoryCards";
 
 export class thumbnailInfo {
   text: string | null;
@@ -12,8 +12,27 @@ export class thumbnailInfo {
   }
 }
 
-export function filterMemoryByWeek(startDate: string): thumbnailInfo[] {
+// Helper to fetch memory cards from backend
+async function fetchMemoryCards(): Promise<any[]> {
+  const response = await fetch("http://localhost:5001/api/memory-cards");
+  if (!response.ok) throw new Error("Failed to fetch memory cards");
+  return response.json();
+}
+
+async function fetchMemories(): Promise<any[]> {
+  const response = await fetch("http://localhost:5001/api/memories");
+  if (!response.ok) throw new Error("Failed to fetch memory cards");
+  return response.json();
+}
+
+export async function filterMemoryByWeek(
+  startDate: string,
+): Promise<thumbnailInfo[]> {
   const thumbnailInfoArray: thumbnailInfo[] = [];
+
+  const memories = await fetchMemories();
+  const memoryCards = await fetchMemoryCards();
+
   //   const seenDates = new Set<string>();
 
   const date = new Date(startDate);
@@ -32,12 +51,12 @@ export function filterMemoryByWeek(startDate: string): thumbnailInfo[] {
   }
 
   // Get memory cards for the week
-  const weeklyMemoryCards = mockMemoryCards.filter((card) =>
+  const weeklyMemoryCards = memoryCards.filter((card) =>
     weekDates.includes(card.date),
   );
 
   for (const card of weeklyMemoryCards) {
-    const memory = mockMemories[card.memoryID];
+    const memory = memories[card.memoryID];
     if (!memory) continue;
 
     const text = memory.type === "text" ? memory.content : null;
@@ -71,22 +90,27 @@ export function filterMemoryByWeek(startDate: string): thumbnailInfo[] {
   return thumbnailInfoArray;
 }
 
-export function filterMemoryByMonth(startDate: string): thumbnailInfo[] {
+export async function filterMemoryByMonth(
+  startDate: string,
+): Promise<thumbnailInfo[]> {
   const thumbnailInfoArray: thumbnailInfo[] = [];
   //   const seenDates = new Set<string>();
+
+  const memories = await fetchMemories();
+  const memoryCards = await fetchMemoryCards();
 
   const date = new Date(startDate);
   const year = date.getFullYear();
   const month = date.getMonth(); // 0-indexed: Jan = 0
 
   // Filter memory cards that match the year and month
-  const monthlyMemoryCards = mockMemoryCards.filter((card) => {
+  const monthlyMemoryCards = memoryCards.filter((card) => {
     const cardDate = new Date(card.date);
     return cardDate.getFullYear() === year && cardDate.getMonth() === month;
   });
 
   for (const card of monthlyMemoryCards) {
-    const memory = mockMemories[card.memoryID];
+    const memory = memories[card.memoryID];
     if (!memory) continue;
 
     const text = memory.type === "text" ? memory.content : null;
@@ -119,13 +143,18 @@ export function filterMemoryByMonth(startDate: string): thumbnailInfo[] {
   return thumbnailInfoArray;
 }
 
-export function filterMemoryByYear(startDate: string): thumbnailInfo[] {
+export async function filterMemoryByYear(
+  startDate: string,
+): Promise<thumbnailInfo[]> {
+  const memories = await fetchMemories();
+  const memoryCards = await fetchMemoryCards();
+
   const thumbnailInfoArray: thumbnailInfo[] = [];
   const date = new Date(startDate);
   const year = date.getFullYear();
 
   for (let month = 0; month < 12; month++) {
-    const monthlyCards = mockMemoryCards.filter((card) => {
+    const monthlyCards = memoryCards.filter((card) => {
       const cardDate = new Date(card.date);
       return cardDate.getFullYear() === year && cardDate.getMonth() === month;
     });
@@ -133,7 +162,7 @@ export function filterMemoryByYear(startDate: string): thumbnailInfo[] {
     if (monthlyCards.length === 0) continue; // No cards at all for this month
 
     for (const card of monthlyCards) {
-      const memory = mockMemories[card.memoryID];
+      const memory = memories[card.memoryID];
       if (!memory) continue;
 
       const text = memory.type === "text" ? memory.content : null;

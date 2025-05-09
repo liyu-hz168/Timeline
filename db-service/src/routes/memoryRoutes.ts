@@ -76,7 +76,7 @@ router.post("/memory-cards", async (req, res) => {
 // GET all MemoryCards
 router.get("/memory-cards", async (req, res) => {
   try {
-    const cards = await MemoryCard.find();
+    const cards = await MemoryCard.find().populate("memoryID");
     res.status(200).json(cards);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch memory cards" });

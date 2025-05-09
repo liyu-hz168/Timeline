@@ -7,7 +7,11 @@ const MemoryCardSchema = new mongoose.Schema({
     x: { type: Number, required: true },
     y: { type: Number, required: true },
   },
-  memoryID: { type: String, required: true },
+  memoryID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Memory",
+    required: true,
+  },
 });
 
 export default mongoose.model("MemoryCard", MemoryCardSchema);
