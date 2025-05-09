@@ -10,7 +10,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error(err));
 
-app.use("/api", memoryRoutes);
+app.use("/api/database", memoryRoutes);
 
 app.listen(5001, () => {
   console.log("DB Service running on port 5001");
