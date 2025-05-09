@@ -1,6 +1,15 @@
-version: "3.9"
+version: '3.9'
 
 services:
+  backend:
+    build: ./main-service
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./main-service:/app
+    working_dir: /app
+    command: npm run dev
+
   db-service:
     build:
       context: ./db-service
@@ -11,8 +20,6 @@ services:
       - ./db-service/mongo-data:/data/db
     networks:
       - timeline
-  
-  
   
   backend-main:
     build:

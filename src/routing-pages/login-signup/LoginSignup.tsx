@@ -3,10 +3,39 @@ import email_icon from "./assets/email.png";
 import password_icon from "./assets/password.png";
 import person_icon from "./assets/person.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function LoginSignup() {
   const [action, setAction] = useState("Login");
   const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async () => {
+    try {
+      if (action === "Login") {
+        const res = await axios.post("http://localhost:4000/api/auth/login", {
+          email: email,
+          password: password
+        });
+        console.log(res.data)
+      }
+      else {
+        const res = await axios.post("http://localhost:4000/api/auth/signup", {
+          name: name,
+          email: email,
+          password: password
+        });
+        console.log(res.data)
+      }
+      navigate("/timeline")
+    } catch (error) {
+      console.log(error);
+      alert("Failed to authenticate. Try again.")
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-6">
       <div className="mx-auto w-full max-w-md scale-150 transform text-center">
@@ -20,6 +49,8 @@ function LoginSignup() {
               type="text"
               placeholder="Name"
               className="flex-1 outline-none"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="mb-2 flex items-center rounded border bg-white px-4 py-2 shadow">
@@ -28,6 +59,8 @@ function LoginSignup() {
               type="email"
               placeholder="Email"
               className="flex-1 outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="mb-10 flex items-center rounded border bg-white px-4 py-2 shadow">
@@ -36,6 +69,8 @@ function LoginSignup() {
               type="password"
               placeholder="Password"
               className="flex-1 outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
         </div>
@@ -44,7 +79,7 @@ function LoginSignup() {
           <button
             onClick={() => {
               setAction("Sign Up");
-              navigate(`/timeline`);
+              handleSubmit();
             }}
             className={`mr-7 min-w-[123px] rounded-xl px-6 py-2 transition ${
               action == "Login"
@@ -58,7 +93,7 @@ function LoginSignup() {
           <button
             onClick={() => {
               setAction("Login");
-              navigate(`/timeline`);
+              handleSubmit();
             }}
             className={`mr-7 min-w-[123px] rounded-xl px-6 py-2 transition ${
               action == "Sign Up"

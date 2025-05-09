@@ -4,7 +4,13 @@ import { useNavigate } from "react-router-dom";
 
 // Timeline                  week|month|year                       settings    sign out
 // Font: PP Editorial New, in tailwind font-serif vertically stretched out looks similar
-const NavBar = () => {
+const NavBar = ({
+  viewMode,
+  setViewMode,
+}: {
+  viewMode: "week" | "month" | "year";
+  setViewMode: (mode: "week" | "month" | "year") => void;
+}) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const navigate = useNavigate();
   //Implement the zooming in and out when clicked on the three views
@@ -22,11 +28,19 @@ const NavBar = () => {
           week
         </button>
         <div className="h-8 w-[2px] scale-y-[1.6] bg-black"></div>
-        <button className="scale-y-[1.1] hover:underline" id="month-button">
+        <button
+          className={`scale-y-[1.1] hover:underline ${viewMode === "month" ? "font-bold" : ""}`}
+          id="month-button"
+          onClick={() => setViewMode("month")}
+        >
           month
         </button>
         <div className="h-8 w-[2px] scale-y-[1.6] bg-black"></div>
-        <button className="scale-y-[1.1] hover:underline" id="year-button">
+        <button
+          className={`scale-y-[1.1] hover:underline ${viewMode === "year" ? "font-bold" : ""}`}
+          id="year-button"
+          onClick={() => setViewMode("year")}
+        >
           year
         </button>
       </div>
