@@ -1,19 +1,18 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import gsap from "gsap";
 import Thumbnail from "./thumbnail";
-import {
-  filterMemoryByWeek,
-  filterMemoryByMonth,
-  filterMemoryByYear,
-  thumbnailInfo,
-} from "@/utils/FilterMemoryByDateRange";
+import { thumbnailInfo } from "@/utils/FilterMemoryByDateRange";
 import { useNavigate } from "react-router-dom";
 import RightArrow from "../assets/graphics/right-white.png";
 
-export default function Timeline() {
+export default function Timeline({
+  memories,
+}: {
+  memories: thumbnailInfo[];
+}) {
   const scrollContainer1 = useRef<HTMLDivElement | null>(null);
   const scrollContainer2 = useRef<HTMLDivElement | null>(null);
-
+  
   //this state will always show the date in the center
   const [currentDate, setCurrentDate] = useState(new Date());
   const [baseDate, setBaseDate] = useState(new Date());
