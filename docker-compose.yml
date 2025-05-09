@@ -9,3 +9,29 @@ services:
       - ./main-service:/app
     working_dir: /app
     command: npm run dev
+
+  db-service:
+    build:
+      context: ./db-service
+    container_name: db-service
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./db-service/mongo-data:/data/db
+    networks:
+      - timeline
+  
+  backend-main:
+    build:
+      context: ./backend-server
+    container_name:  backend-server
+    depends_on:
+      - db-service
+    networks:
+      - timeline
+    ports:
+      - "9090:8080"
+
+networks:
+  timeline:
+    driver: bridge

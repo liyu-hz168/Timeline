@@ -24,6 +24,6 @@ function generateMockMemories(numMemories: number): Record<string, Memory> {
   return memories;
 }
 
-const mockMemories: Record<string, Memory> = generateMockMemories(100);
+const mockMemories: Record<string, Memory> = generateMockMemories(365);
 
 export { mockMemories };

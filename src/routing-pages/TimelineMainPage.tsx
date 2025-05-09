@@ -30,8 +30,8 @@ const TimelineMainPage = () => {
 
   return (
     <div className="flex flex-col">
-      <NavBar viewMode={viewMode} setViewMode={setViewMode} />
-      <div className="relative flex h-[100vh] w-[100vw] items-center">
+      <NavBar />
+      <div className="relative mt-[-30px] flex h-[90vh] w-[100vw] items-center">
         <div className="absolute w-[100%]">
           <Timeline memories={memories}/>
         </div>

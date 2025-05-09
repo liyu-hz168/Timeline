@@ -12,7 +12,6 @@ const MemoryPage = ({ date }: { date: string }) => {
 
   const loadMemForDate = (memModals: MemoryCard[], date: string) => {
     console.log("Loading mem for date: ", date);
-    console.log(memModals)
     return memModals.filter((modal) => modal.date === date);
   };
 
