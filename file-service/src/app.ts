@@ -12,23 +12,33 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "../uploads"); 
+    cb(null, "../uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname + Date.now()); 
+    cb(null, file.originalname + Date.now());
   },
 });
 
 const allowedTypes = [
-  "image/jpeg", "image/png","image/gif","image/webp","image/bmp", 
-  "audio/mpeg","audio/ogg", "audio/wav", 
-  "video/mp4", "video/webm","video/ogg", 
-  "text/plain","text/html","text/markdown"
+  "image/jpeg",
+  "image/png",
+  "image/gif",
+  "image/webp",
+  "image/bmp",
+  "audio/mpeg",
+  "audio/ogg",
+  "audio/wav",
+  "video/mp4",
+  "video/webm",
+  "video/ogg",
+  "text/plain",
+  "text/html",
+  "text/markdown",
 ];
 
 const fileFilter = (
@@ -52,7 +62,7 @@ const upload = multer({
   fileFilter,
 });
 
-// PUT: image storage, will later be stored in mounted docker volume 
+// PUT: image storage, will later be stored in mounted docker volume
 app.put("/api/upload", upload.single("file"), (req, res) => {
   if (!req.file) {
     return res.status(400).send("No file uploaded...");
@@ -64,7 +74,7 @@ app.put("/api/upload", upload.single("file"), (req, res) => {
   });
 });
 
-// GET: retrieve file by file name and memory it is associated with 
+// GET: retrieve file by file name and memory it is associated with
 app.get("/api/files/:filename", (req: Request, res: Response) => {
   const { filename } = req.params;
   const filePath = path.join(__dirname, "../uploads", filename);
@@ -105,7 +115,7 @@ app.delete("/api/files/:filename", (req: Request, res: Response) => {
   });
 });
 
-// Error handling 
+// Error handling
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof multer.MulterError && err.code === "LIMIT_FILE_SIZE") {
     return res.status(400).send("File is too large. Maximum size is 10MB.");
