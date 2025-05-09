@@ -32,6 +32,17 @@ services:
     ports:
       - "9090:8080"
 
+  file-service:
+    build:
+      context: ./file-service
+    container name: file-service
+    ports:
+      - "4000:4000"
+    volumes: 
+      - ./file-service/uploads:/app/uploads
+    networks:
+      - timeline
+
 networks:
   timeline:
     driver: bridge
