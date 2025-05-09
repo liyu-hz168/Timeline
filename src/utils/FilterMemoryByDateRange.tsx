@@ -116,7 +116,6 @@ export function filterMemoryByMonth(startDate: string): thumbnailInfo[] {
       existingThumbnail.text = "no preview";
     }
   }
-  console.log(thumbnailInfoArray);
   return thumbnailInfoArray;
 }
 
