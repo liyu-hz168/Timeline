@@ -17,7 +17,7 @@ app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/"); 
+    cb(null, "../uploads"); 
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname + Date.now()); 
@@ -67,7 +67,7 @@ app.put("/api/upload", upload.single("file"), (req, res) => {
 // GET: retrieve file by file name and memory it is associated with 
 app.get("/api/files/:filename", (req: Request, res: Response) => {
   const { filename } = req.params;
-  const filePath = path.join(__dirname, "uploads", filename);
+  const filePath = path.join(__dirname, "../uploads", filename);
 
   // Check if the file exists
   fs.access(filePath, fs.constants.F_OK, (err) => {
@@ -83,10 +83,11 @@ app.get("/api/files/:filename", (req: Request, res: Response) => {
 // DELETE: delete file based on name and memory it is associated with
 app.delete("/api/files/:filename", (req: Request, res: Response) => {
   const { filename } = req.params;
-  const filePath = path.join(__dirname, "uploads", filename);
+  const filePath = path.join(__dirname, "../uploads", filename);
 
   // Check if the file exists
   fs.access(filePath, fs.constants.F_OK, (err) => {
+    console.log("Attempting to delete:", filePath);
     if (err) {
       return res.status(404).send("File not found");
     }
